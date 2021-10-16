@@ -156,8 +156,9 @@ while flag:
    feedback = consistency_check()
    # here we should store all logs somewhere and then flush them
    for account in ACCOUNTS:
-      # store logs state somewhere
+      # TODO: store logs state somewhere
       account.log = []
    mutex.release()
    if not feedback:
       flag = False
+      

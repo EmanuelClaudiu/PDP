@@ -22,3 +22,4 @@ class Account:
 
     def __str__(self):
         return f'Balance: {str(self.balance)}; Log: [{str(self.log)}]'
+        
