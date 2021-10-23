@@ -2,7 +2,6 @@
 
 from threading import Thread, Lock
 import random
-import pickle
 import time
 from models.account import Account
 from models.record import Record
