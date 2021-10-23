@@ -157,6 +157,7 @@ while flag:
    # here we should store all logs somewhere and then flush them
    for account in ACCOUNTS:
       # TODO: store logs state somewhere
+      # TODO: put a mutex on the account when doing the transaction, so it can be asynchronous
       account.log = []
    mutex.release()
    if not feedback:
