@@ -3,19 +3,19 @@
 from threading import Thread, Lock
 import random
 
-MAXIMUM_VECTOR_SIZE = 30
+MAXIMUM_VECTOR_SIZE = 1
 MAXIMUM_ELEMENT_SIZE = 5
 
 PRODUCT_VECTOR = []
 
 SUM = 0
 
-# construct a random vector
-def initialize_vector():
-    data = []
+# initialize vectors randomly
+# vectors need to have same size
+def initialize_vectors(vector1, vector2):
     for i in range(1, MAXIMUM_VECTOR_SIZE):
-        data.append(random.randint(1, MAXIMUM_ELEMENT_SIZE))
-    return data
+        vector1.append(random.randint(1, MAXIMUM_ELEMENT_SIZE))
+        vector2.append(random.randint(1, MAXIMUM_ELEMENT_SIZE))
 
 mutex = Lock()
 producer_started = False
@@ -23,9 +23,9 @@ producer_started = False
 producer_ended = False
 consumer_ended = False
 
-first_vector = initialize_vector()
-second_vector = initialize_vector()
-
+first_vector = []
+second_vector = []
+initialize_vectors(first_vector, second_vector)
 class ProducerThread(Thread):
 
     def __init__(self):
@@ -37,12 +37,13 @@ class ProducerThread(Thread):
         global producer_ended
         global PRODUCT_VECTOR
         producer_started = True
-        for item1 in first_vector:
-            for item2 in second_vector:
-                mutex.acquire()
-                print(f"[PRODUCER] Made a product")
-                PRODUCT_VECTOR.append(item1 * item2)
-                mutex.release()
+        for i in range(0, len(first_vector)):
+            item1 = first_vector[i]
+            item2 = second_vector[i]
+            mutex.acquire()
+            print(f"[PRODUCER] Made a product")
+            PRODUCT_VECTOR.append(item1 * item2)
+            mutex.release()
         producer_ended = True
         print("[PRODUCER] Exiting producer thread")
 
