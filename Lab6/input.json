@@ -1,0 +1,26 @@
+[
+  {
+    "node": 1,
+    "goesInto": [2]
+  },
+  {
+    "node": 2,
+    "goesInto": [3]
+  },
+  {
+    "node": 3,
+    "goesInto": [1, 4]
+  },
+  {
+    "node": 4,
+    "goesInto": [2, 5, 6]
+  },
+  {
+    "node": 5,
+    "goesInto": [1]
+  },
+  {
+    "node": 6,
+    "goesInto": [5]
+  }
+]
