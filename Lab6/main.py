@@ -28,7 +28,7 @@ class myThread (Thread):
     def run(self):
         global ROADS
         if self.node in self.road_so_far:
-            if self.road_so_far[0] == self.node and len(self.road_so_far) != 1:
+            if self.road_so_far[0] == self.node and len(self.road_so_far) == 6:
                 self.road_so_far.append(self.node)
                 mutex.acquire()
                 ROADS.append(self.road_so_far)
