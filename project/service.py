@@ -1,35 +1,13 @@
 import json
 import random
 import time
+from threading import Thread
 
-class TicketSPlitService:
+class myThred(Thread):
 
-    def __init__(self, input):
-        if input == None:
-            file = open('inputs.json')
-            data = json.load(file)
-            file.close()
-        else:
-            data = input
-        self.TICKETS = []
-        self.main_ticket = data
-        self.TICKETS.append(self.main_ticket)
-        a = self.splitIntoTwo(self.main_ticket)
-        for t in a:
-            self.splitIntoTwo(t)
-
-    def calculateStake(self, matches):
-        stake = 1
-        for match in matches:
-            stake *= float(match['stake'])
-        return round(stake, 2)
-
-    def swapTwoRandoms(self, first_list, second_list):
-        a = first_list[random.randint(0, len(first_list) - 1)]
-        b = second_list[random.randint(0, len(second_list) - 1)]
-        index1 = first_list.index(a)
-        index2 = second_list.index(b)
-        first_list[index1], second_list[index2] = b, a
+    def __init__(self, TICKETS):
+        Thread.__init__(self)
+        self.TICKETS = TICKETS
 
     def splitIntoTwo(self, ticket):
         start_timer = time.time()
@@ -48,6 +26,43 @@ class TicketSPlitService:
         self.TICKETS.append(solution[0])
         self.TICKETS.append(solution[1])
         return solution
+
+    def swapTwoRandoms(self, first_list, second_list):
+        a = first_list[random.randint(0, len(first_list) - 1)]
+        b = second_list[random.randint(0, len(second_list) - 1)]
+        index1 = first_list.index(a)
+        index2 = second_list.index(b)
+        first_list[index1], second_list[index2] = b, a
+
+    def calculateStake(self, matches):
+        stake = 1
+        for match in matches:
+            stake *= float(match['stake'])
+        return round(stake, 2)
+
+class TicketSPlitService:
+
+    def __init__(self, input):
+        if input == None:
+            file = open('inputs.json')
+            data = json.load(file)
+            file.close()
+        else:
+            data = input
+        self.TICKETS = []
+        self.main_ticket = data
+        self.TICKETS.append(self.main_ticket)
+        new_thread = myThred(self.TICKETS)
+        a = new_thread.splitIntoTwo(self.main_ticket)
+        for t in a:
+            new_thread = myThred(self.TICKETS)
+            new_thread.splitIntoTwo(t)
+
+    def calculateStake(self, matches):
+        stake = 1
+        for match in matches:
+            stake *= float(match['stake'])
+        return round(stake, 2)
 
     def prettyPrint(self):
         for ticket in self.TICKETS:
