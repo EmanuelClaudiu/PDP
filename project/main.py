@@ -1,7 +1,6 @@
 import json
 import random
 import time
-from models.ticket import Ticket
 
 file = open('inputs.json')
 data = json.load(file)
@@ -17,7 +16,7 @@ def calculateStake(matches):
         stake *= float(match['stake'])
     return round(stake, 2)
 
-TICKETS.append(Ticket(main_ticket, calculateStake(main_ticket)))
+TICKETS.append(main_ticket)
 
 def splitIntoTwo(ticket):
     start_timer = time.time()
@@ -32,7 +31,9 @@ def splitIntoTwo(ticket):
         if difference < minimum_difference_so_far:
             minimum_difference_so_far = difference
             start_timer = time.time()
-            solution = (Ticket(first_pair, calculateStake(first_pair)), Ticket(second_pair, calculateStake(second_pair)))
+            solution = (first_pair, second_pair)
+    TICKETS.append(solution[0])
+    TICKETS.append(solution[1])
     return solution
 
 
@@ -44,7 +45,12 @@ def swapTwoRandoms(first_list, second_list):
     first_list[index1] , second_list[index2] = b , a
 
 
-a = splitIntoTwo(main_ticket)[0].matches
-for l in splitIntoTwo(a):
-    print(l.matches)
-    print(f'Cota: {l.stake}')
+a = splitIntoTwo(main_ticket)
+for t in a:
+    splitIntoTwo(t)
+
+for ticket in TICKETS:
+    print(f"----------Ticket nr: {TICKETS.index(ticket) + 1}----------")
+    for match in ticket:
+        print(f'{match["tag"]} - {match["bet"]} - {match["stake"]}')
+    print(f"--Stake: {calculateStake(ticket)}")
