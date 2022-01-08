@@ -23,6 +23,7 @@ stake.grid(row=2, column=2)
 
 NEW_ROW = 5
 INPUT = []
+TICKET_TO_SHOW = 0
 
 def handleClick():
     global NEW_ROW, INPUT
@@ -42,6 +43,22 @@ def finishTicket():
     global INPUT
     t = TicketSPlitService(INPUT)
     t.prettyPrint()
+    printTickets(t, NEW_ROW + 1, NEW_ROW + 2)
+
+def printTickets(ticketMaster, pannelRow, buttonsRow):
+    global NEW_ROW
+    _column = 0
+    for ticket in ticketMaster.TICKETS:
+        toShow = f"Ticket #{ticketMaster.TICKETS.index(ticket) + 1}\n"
+        for match in ticket:
+            toShow += f"{ticket.index(match) + 1}. {match['tag']} - {match['bet']} - {match['stake']}\n"
+        toShow += f"Stake: {ticketMaster.calculateStake(ticket)}"
+        t = Label(root, text=toShow, padx=10)
+        t.grid(row=NEW_ROW, column=_column)
+        _column += 1
+        if _column == 4:
+            _column = 0
+            NEW_ROW += 1
 
 add_button = Button(root, text="Add match to ticket", command=handleClick)
 add_button.grid(row=3, column=1, pady=20)
