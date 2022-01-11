@@ -40,7 +40,9 @@ def handleClick():
     stake.delete(0, END)
 
 def finishTicket():
-    global INPUT
+    global INPUT, NEW_ROW
+    if INPUT == []:
+        INPUT = None
     t = TicketSPlitService(INPUT)
     t.prettyPrint()
     printTickets(t, NEW_ROW + 1, NEW_ROW + 2)
